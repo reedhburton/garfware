@@ -1,39 +1,5 @@
 #include "garfware.h"
 
-std::list<fs::path> get_shortcuts_in_dir(fs::path dir) {
-    std::list<fs::path> shortcuts;
-    for (const auto& entry : fs::directory_iterator(dir))
-        if (entry.path().extension() == ".url" ||
-            entry.path().extension() == ".lnk") {
-            shortcuts.push_back(entry.path());
-        }
-    return shortcuts;
-}
-
-fs::path get_desktop_path() {
-    static TCHAR path[MAX_PATH + 1];
-    std::string path_string;
-    std::wstring wStr;
-    if (SHGetSpecialFolderPath(HWND_DESKTOP, path, CSIDL_DESKTOP, FALSE)) {
-#ifndef UNICODE
-        path_string = path;
-#else
-        wStr = path;
-        path_string = std::string(wStr.begin(), wStr.end());
-#endif
-        return string2path(path_string);
-    } else
-        return "ERROR";
-}
-
-fs::path get_tmp_dir() {
-    return fs::temp_directory_path();
-}
-
-fs::path get_cwd() {
-    return fs::current_path();
-}
-
 int set_wallpaper(fs::path wallpaper_path) {
     bool result = SystemParametersInfoA(
         SPI_SETDESKWALLPAPER, 0, (PVOID*)path2string(wallpaper_path).c_str(),
