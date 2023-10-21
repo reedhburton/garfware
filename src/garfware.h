@@ -1,9 +1,9 @@
 #ifndef _GARFWARE
 #define _GARFWARE
 
+#include <windows.h>
 #include <shlobj.h>
 #include <stdio.h>
-#include <windows.h>
 #include <cctype>
 #include <cstdio>
 #include <filesystem>
